@@ -62,7 +62,7 @@ curl -fsSL https://github.com/yxxbc/haruhikage-support/releases/latest/download/
 - 原生界面，macOS / Windows / Linux，无 WebView
 - 播放队列、随机与循环、音量均衡、暂停与继续的淡入淡出
 - 逐字歌词与翻译，正在播放页的「律动」视图
-- 本地音乐：在设置里选择文件夹，扫描缺失的标题、歌手、专辑、封面和歌词，预览后写回 FLAC
+- 本地音乐：在设置里选择文件夹，扫描缺失的标题、歌手、专辑、封面和歌词，预览后写回 FLAC（需要 metaflac）
 - 听过的歌曲缓存在本机，再次播放无需等待
 - 退出后再打开，从上次的播放队列与进度继续
 - 跨设备同步：通过 iCloud Drive 接续播放进度和设置
