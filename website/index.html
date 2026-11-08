@@ -19,7 +19,7 @@ try {
   if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
 } catch {}
 </script>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20261109-2">
 </head>
 <body>
 <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
@@ -64,7 +64,7 @@ try {
         </div>
         <div class="app-body">
           <aside class="app-sidebar">
-            <div class="app-side-head"><img src="assets/appicon-dev.png" alt=""><span>春日影</span></div>
+            <div class="app-side-head"><img src="assets/appicon-dev.png" alt="" width="24" height="24"><span>春日影</span></div>
             <button class="app-tab active" type="button" data-pane="now">正在播放</button>
             <button class="app-tab" type="button" data-pane="lyrics">歌词</button>
             <button class="app-tab" type="button" data-pane="queue">队列</button>
@@ -298,6 +298,6 @@ try {
   </figure>
 </div>
 
-<script src="app.js"></script>
+<script src="app.js?v=20261109-2"></script>
 </body>
 </html>
