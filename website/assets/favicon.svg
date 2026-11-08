@@ -1,4 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#ed5b62"/>
-  <text x="32" y="43" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif" font-size="36" font-weight="700" fill="#fff">春</text>
+  <defs>
+    <linearGradient id="g" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF6B6B"/>
+      <stop offset="0.55" stop-color="#ED1B33"/>
+      <stop offset="1" stop-color="#B0071C"/>
+    </linearGradient>
+    <radialGradient id="h" cx="0" cy="0" r="1" gradientTransform="translate(24 18) rotate(48) scale(46)">
+      <stop stop-color="#fff" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#g)"/>
+  <rect width="64" height="64" rx="15" fill="url(#h)"/>
+  <circle cx="32" cy="32" r="17.5" fill="none" stroke="#fff" stroke-opacity=".88" stroke-width="1.8"/>
+  <circle cx="32" cy="32" r="12.5" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1"/>
+  <path d="M27.8 22.9c0-.9 1-1.5 1.8-1l13 9.1c.7.5.7 1.5 0 2l-13 9.1c-.8.5-1.8-.1-1.8-1z" fill="#fff"/>
 </svg>

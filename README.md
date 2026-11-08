@@ -20,6 +20,10 @@
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-green?style=flat-square" alt="许可证"></a>
 </p>
 
+<p align="center">
+<a href="https://awesomemygo.dev/apps/haruhikage-app"><img src="https://awesomemygo.dev/badge.svg" alt="Listed on Awesome MyGo"></a>
+</p>
+
 > 这个仓库只放安装包、更新清单和运行时文件。源码不公开，构建由 Release workflow 从私有源码仓库完成。
 
 ## 下载
