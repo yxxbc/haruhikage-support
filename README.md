@@ -1,7 +1,7 @@
 # 春日影
 
 <p align="center">
-<img src="image/header.png" alt="春日影 — 用 Go 与 MyGo 写的跨平台音乐播放器" width="100%">
+<img src="website/assets/header.webp" alt="春日影 — 用 Go 与 MyGo 写的跨平台音乐播放器" width="100%">
 </p>
 
 <p align="center">
@@ -48,13 +48,13 @@ curl -fsSL https://github.com/yxxbc/haruhikage-support/releases/latest/download/
 
 ## 界面
 
-![正在播放：逐字歌词与翻译](image/now-playing-lyrics.png)
+![正在播放：逐字歌词与翻译](website/assets/now-playing-lyrics.webp)
 
 <p align="center"><sub>正在播放 · 逐字歌词与翻译</sub></p>
 
 | 待播清单 | 选歌 |
 | :---: | :---: |
-| ![待播清单：队列里的歌，随时切换](image/now-playing-queue.png) | ![选歌：在封面墙里挑下一首](image/now-playing-picker.png) |
+| ![待播清单：队列里的歌，随时切换](website/assets/now-playing-queue.webp) | ![选歌：在封面墙里挑下一首](website/assets/now-playing-picker.webp) |
 | <sub>队列里的歌，随时切换</sub> | <sub>在封面墙里挑下一首</sub> |
 
 ## 功能
