@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>春日影 — 跨平台音乐播放器</title>
+<meta name="description" content="春日影是用 Go 与 MyGo 写的跨平台音乐播放器：原生界面、无 WebView、本地音乐库、逐字歌词、播放队列与跨设备续播。">
+<meta property="og:title" content="春日影 — 跨平台音乐播放器">
+<meta property="og:description" content="原生界面、无 WebView、本地音乐库、逐字歌词、播放队列与跨设备续播。">
+<meta property="og:image" content="assets/header.webp">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#top">
+    <span class="brand-mark" aria-hidden="true">春</span>
+    <span>春日影</span>
+  </a>
+  <nav>
+    <a href="#features">功能</a>
+    <a href="#screens">截图</a>
+    <a href="#download">下载</a>
+    <a href="https://github.com/yxxbc/haruhikage-support/releases" target="_blank" rel="noopener">版本</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">macOS · Windows · Linux</p>
+      <h1>春日影</h1>
+      <p class="lead">用 Go 与 MyGo 写的跨平台音乐播放器。原生界面，无 WebView；本地音乐库、逐字歌词、播放队列与跨设备续播。</p>
+      <div class="actions">
+        <a class="button primary" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">下载最新版</a>
+        <a class="button ghost" href="https://github.com/yxxbc/haruhikage-support" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <p class="meta">最新版本 <span data-version>加载中…</span> · <a href="https://github.com/yxxbc/haruhikage-support/blob/main/LICENSE">AGPL-3.0</a></p>
+    </div>
+    <div class="hero-art">
+      <img src="assets/header.webp" alt="春日影" width="1920" height="510">
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <div class="section-head">
+      <h2>为听歌做的播放器</h2>
+      <p>不套网页，不塞广告。界面跟着系统走，播放围绕一张唱片展开。</p>
+    </div>
+    <div class="feature-grid">
+      <article class="feature">
+        <h3>原生界面</h3>
+        <p>Go + MyGo，macOS、Windows、Linux 共用一套视图，没有 WebView。</p>
+      </article>
+      <article class="feature">
+        <h3>逐字歌词</h3>
+        <p>逐字高亮、翻译与「律动」视图，歌词跟着人声走。</p>
+      </article>
+      <article class="feature">
+        <h3>本地音乐库</h3>
+        <p>选择文件夹，扫描缺失的标题、歌手、专辑、封面和歌词，预览后写回 FLAC。</p>
+      </article>
+      <article class="feature">
+        <h3>播放队列</h3>
+        <p>队列、随机、循环、音量均衡与暂停继续的淡入淡出。</p>
+      </article>
+      <article class="feature">
+        <h3>跨设备续播</h3>
+        <p>通过 iCloud Drive 接续播放进度和设置，不需要服务器。</p>
+      </article>
+      <article class="feature">
+        <h3>刘海播放器</h3>
+        <p>macOS 上在刘海处显示迷你播放器，悬停展开。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="screens" class="section">
+    <div class="section-head">
+      <h2>界面</h2>
+      <p>正在播放、队列与选歌，都在一个窗口里。</p>
+    </div>
+    <div class="shots">
+      <figure class="shot wide">
+        <img src="assets/now-playing-lyrics.webp" alt="正在播放：逐字歌词与翻译" loading="lazy">
+        <figcaption>正在播放 · 逐字歌词与翻译</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="assets/now-playing-queue.webp" alt="待播清单：队列里的歌，随时切换" loading="lazy">
+        <figcaption>待播清单</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="download" class="section download">
+    <div class="section-head">
+      <h2>下载</h2>
+      <p>选择你的平台。安装包来自 <a href="https://github.com/yxxbc/haruhikage-support/releases" target="_blank" rel="noopener">Releases</a>，版本 <span data-version>加载中…</span>。</p>
+    </div>
+    <div class="download-grid">
+      <article class="download-card" data-os="mac">
+        <div class="os-head"><span class="os-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg></span><h3>macOS</h3><span class="tag">推荐</span></div>
+        <p>macOS 13 或更新</p>
+        <div class="buttons">
+          <a class="button primary" data-asset="mac-arm" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">Apple 芯片</a>
+          <a class="button ghost" data-asset="mac-intel" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">Intel</a>
+        </div>
+      </article>
+      <article class="download-card" data-os="win">
+        <div class="os-head"><span class="os-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1"/></svg></span><h3>Windows</h3><span class="tag">推荐</span></div>
+        <p>Windows 10 或更新</p>
+        <div class="buttons">
+          <a class="button primary" data-asset="win-x64" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">x64 安装包</a>
+          <a class="button ghost" data-asset="win-arm" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">ARM64</a>
+        </div>
+      </article>
+      <article class="download-card" data-os="linux">
+        <div class="os-head"><span class="os-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span><h3>Linux</h3><span class="tag">推荐</span></div>
+        <p>Debian / Ubuntu 与其他发行版</p>
+        <div class="buttons">
+          <a class="button primary" data-asset="linux-deb-x64" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">deb x64</a>
+          <a class="button ghost" data-asset="linux-tar-x64" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">tar.gz x64</a>
+          <a class="button ghost" data-asset="linux-deb-arm" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">deb ARM64</a>
+        </div>
+      </article>
+    </div>
+    <p class="note">macOS 包是 ad hoc 签名、未公证，第一次打开如果被拦截，请右键「打开」，或执行
+      <code>xattr -dr com.apple.quarantine /Applications/春日影.app</code>
+      <button class="copy" data-copy="xattr -dr com.apple.quarantine /Applications/春日影.app" type="button">复制</button>
+    </p>
+  </section>
+
+  <section class="section local">
+    <div class="local-copy">
+      <p class="eyebrow">本地优先</p>
+      <h2>音乐在你自己的硬盘上</h2>
+      <p>春日影的本地音乐工具会扫描你选择的文件夹，补全缺失的标题、歌手、专辑、封面和歌词，先在界面里预览，确认后才写回文件；写入前会备份。</p>
+      <p>播放队列、缓存和设置都留在本机。跨设备续播使用 iCloud Drive 的共享文件夹，不经过任何服务器。</p>
+    </div>
+  </section>
+
+  <section class="section release">
+    <div class="section-head">
+      <h2>版本</h2>
+      <p>每个版本都带 macOS、Windows、Linux 的安装包和签名更新清单。</p>
+    </div>
+    <div class="release-card">
+      <div>
+        <span class="eyebrow">最新版本</span>
+        <p class="release-version" data-version>加载中…</p>
+        <p class="release-date" data-date></p>
+      </div>
+      <div class="buttons">
+        <a class="button primary" data-download href="https://github.com/yxxbc/haruhikage-support/releases/latest">前往下载</a>
+        <a class="button ghost" href="https://github.com/yxxbc/haruhikage-support/releases" target="_blank" rel="noopener">全部版本</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>春日影 · 用 Go 与 <a href="https://github.com/egoist/mygo">MyGo</a> 构建</p>
+  <p class="footer-links">
+    <a href="https://github.com/yxxbc/haruhikage-support" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://github.com/yxxbc/haruhikage-support/releases" target="_blank" rel="noopener">Releases</a>
+    <a href="https://github.com/yxxbc/haruhikage-support/issues" target="_blank" rel="noopener">问题反馈</a>
+    <a href="https://github.com/yxxbc/haruhikage-support/blob/main/LICENSE">AGPL-3.0</a>
+  </p>
+  <p class="fine">音乐与节目内容的版权归各权利人所有。</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
