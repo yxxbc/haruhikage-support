@@ -17,7 +17,9 @@ gh release edit v0.1.0 --repo yxxbc/haruhikage-support --draft=false --latest
 
 发布后，已安装的应用下次检查更新时就会看到它。
 
-旧仓库 `yxxbc/haruhikage-app` 里的安装还在检查旧仓库的更新。发布后运行 **Bridge** workflow，把同一版本的更新清单发到旧仓库，旧安装就会升级过来，之后检查本仓库：
+旧仓库 `yxxbc/haruhikage-app` 已经完成迁移，只剩一个 `v0.1.28` 的 bridge release，用来把旧安装送到本仓库。之后的新版本只发本仓库，不需要再跑 Bridge。
+
+只有在需要重新迁移旧仓库时，才运行 **Bridge** workflow：
 
 ```sh
 gh workflow run bridge.yml --repo yxxbc/haruhikage-support -f version=0.1.28
