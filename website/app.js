@@ -330,3 +330,47 @@ document.querySelectorAll(".feature, .download-card").forEach((card) => {
     card.style.setProperty("--fy", `${event.clientY - rect.top}px`);
   });
 });
+
+
+// The hero's player: tabs, play/pause, a moving progress bar and lyrics.
+const appWindow = document.getElementById("app-window");
+const playToggle = document.getElementById("play-toggle");
+const nowProgress = document.getElementById("now-progress");
+const nowElapsed = document.getElementById("now-elapsed");
+const lyricLines = [...document.querySelectorAll(".lyric-line")];
+const duration = 228; // 3:48
+let elapsed = 0;
+
+document.querySelectorAll(".app-tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".app-tab").forEach((other) => other.classList.remove("active"));
+    tab.classList.add("active");
+    document.querySelectorAll(".app-pane").forEach((pane) => {
+      pane.classList.toggle("active", pane.dataset.pane === tab.dataset.pane);
+    });
+  });
+});
+
+playToggle?.addEventListener("click", () => {
+  const playing = appWindow?.classList.toggle("playing");
+  playToggle.setAttribute("aria-label", playing ? "暂停" : "播放");
+});
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
+function tickPlayer() {
+  if (!appWindow?.classList.contains("playing")) return;
+  elapsed = (elapsed + 1) % duration;
+  const ratio = elapsed / duration;
+  if (nowProgress) nowProgress.style.width = `${ratio * 100}%`;
+  if (nowElapsed) nowElapsed.textContent = formatTime(elapsed);
+  const index = Math.min(lyricLines.length - 1, Math.floor(ratio * lyricLines.length));
+  lyricLines.forEach((line, i) => line.classList.toggle("active", i === index));
+}
+
+tickPlayer();
+setInterval(tickPlayer, 1000);

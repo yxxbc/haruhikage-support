@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://yxxbc.github.io/haruhikage-support/">
 <meta name="theme-color" content="#0c0c10" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f5f2" media="(prefers-color-scheme: light)">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/appicon-dev.png" type="image/png">
 <script>
 document.documentElement.classList.add("js");
 try {
@@ -25,7 +25,7 @@ try {
 <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
 <header class="site-header">
   <a class="brand" href="#top">
-    <span class="brand-mark" aria-hidden="true"><img src="assets/favicon.svg" alt=""></span>
+    <span class="brand-mark" aria-hidden="true"><img src="assets/appicon-dev.png" alt=""></span>
     <span>春日影</span>
   </a>
   <div class="header-actions">
@@ -56,13 +56,72 @@ try {
       <a class="awesome" href="https://awesomemygo.dev/apps/haruhikage-app" target="_blank" rel="noopener"><img src="https://awesomemygo.dev/badge.svg" alt="Listed on Awesome MyGo" height="26"></a>
     </div>
     <div class="hero-art">
-      <img src="assets/header.webp" alt="春日影" width="1920" height="510">
-      <div class="now-playing" aria-hidden="true">
-        <span class="eq"><i></i><i></i><i></i><i></i></span>
-        <span>正在播放 · 逐字歌词</span>
+      <div class="app-window playing" id="app-window">
+        <div class="app-titlebar">
+          <span class="dots"><i></i><i></i><i></i></span>
+          <span class="app-title">春日影</span>
+          <span class="app-live"><i></i>界面演示</span>
+        </div>
+        <div class="app-body">
+          <aside class="app-sidebar">
+            <div class="app-side-head"><img src="assets/appicon-dev.png" alt=""><span>春日影</span></div>
+            <button class="app-tab active" type="button" data-pane="now">正在播放</button>
+            <button class="app-tab" type="button" data-pane="lyrics">歌词</button>
+            <button class="app-tab" type="button" data-pane="queue">队列</button>
+            <button class="app-tab" type="button" data-pane="local">本地音乐</button>
+            <div class="app-side-foot">设置</div>
+          </aside>
+          <div class="app-main">
+            <section class="app-pane active" data-pane="now">
+              <div class="cover"><div class="vinyl"></div></div>
+              <div class="now-info">
+                <p class="now-kicker">正在播放</p>
+                <h3>夜航</h3>
+                <p class="now-artist">Haruhikage</p>
+                <div class="now-progress"><span id="now-progress"></span></div>
+                <div class="now-time"><span id="now-elapsed">0:00</span><span>3:48</span></div>
+                <div class="now-controls">
+                  <button class="ctrl" type="button" aria-label="上一首">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM19 5l-10 7 10 7z"/></svg>
+                  </button>
+                  <button class="ctrl play" id="play-toggle" type="button" aria-label="播放或暂停">
+                    <svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.2v13.6c0 .8.9 1.3 1.6.9l11-6.8c.6-.4.6-1.3 0-1.7l-11-6.8C8.9 3.9 8 4.4 8 5.2z"/></svg>
+                    <svg class="i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></svg>
+                  </button>
+                  <button class="ctrl" type="button" aria-label="下一首">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM5 5l10 7-10 7z"/></svg>
+                  </button>
+                </div>
+                <div class="now-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+            </section>
+            <section class="app-pane" data-pane="lyrics">
+              <div class="pane-head">夜航 <span>逐字歌词</span></div>
+              <div class="lyrics">
+                <p class="lyric-line active">夜色落在城市的边缘</p>
+                <p class="lyric-line">耳机里还有一点光</p>
+                <p class="lyric-line">我们沿着风的方向</p>
+                <p class="lyric-line">把没说完的话唱完</p>
+                <p class="lyric-line">等天亮再回去</p>
+              </div>
+            </section>
+            <section class="app-pane" data-pane="queue">
+              <div class="pane-head">待播清单 <span>4 首</span></div>
+              <div class="queue-row active"><span>01</span><b>夜航</b><em>Haruhikage</em><span>3:48</span></div>
+              <div class="queue-row"><span>02</span><b>慢速公路</b><em>Haruhikage</em><span>4:02</span></div>
+              <div class="queue-row"><span>03</span><b>纸飞机</b><em>Haruhikage</em><span>3:21</span></div>
+              <div class="queue-row"><span>04</span><b>潮汐</b><em>Haruhikage</em><span>5:10</span></div>
+            </section>
+            <section class="app-pane" data-pane="local">
+              <div class="pane-head">本地音乐 <span>FLAC</span></div>
+              <div class="file-row"><span>夜航.flac</span><em>24-bit / 96 kHz</em></div>
+              <div class="file-row"><span>慢速公路.flac</span><em>24-bit / 48 kHz</em></div>
+              <div class="file-row"><span>纸飞机.flac</span><em>16-bit / 44.1 kHz</em></div>
+              <div class="file-row"><span>潮汐.flac</span><em>24-bit / 96 kHz</em></div>
+            </section>
+          </div>
+        </div>
       </div>
-      <div class="hero-chip chip-a" aria-hidden="true">FLAC · 无损</div>
-      <div class="hero-chip chip-b" aria-hidden="true">iCloud 续播</div>
     </div>
   </section>
 
