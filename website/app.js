@@ -12,6 +12,22 @@ const assetNames = {
   "linux-tar-arm": (v) => `haruhikage-app-${v}-linux-arm64.tar.gz`,
 };
 
+
+// Used when the GitHub API is rate limited, or when the page is opened
+// straight from disk as a preview: the release page still has everything.
+const FALLBACK_RELEASE = {
+  tag_name: "v0.1.28",
+  published_at: "2026-11-08T22:12:00Z",
+  html_url: "https://github.com/yxxbc/haruhikage-support/releases/tag/v0.1.28",
+  body: `- 最近播放改成表格式：序号、标题、专辑、喜欢和播放时间一列排开，心形常显，编号连续
+- 设置里的「存储」新增本机容量条：本应用、其他已用和可用空间一眼看清，歌曲缓存另有上限进度
+- 新增跨设备同步：通过 iCloud Drive 接续播放进度、设置和登录状态，在「设置 → 同步」里开关
+- 首次安装登录前要答两道四位数乘除题，答对后才会出现登录按钮
+- 修复最近播放里不能播的歌曲占位导致序号跳号的问题
+- 修复设置窗口在某些操作后不刷新的问题`,
+  assets: [],
+};
+
 const platform = detectPlatform();
 
 function detectPlatform() {
@@ -67,8 +83,9 @@ async function loadLatest() {
   } catch (err) {
     // The release page always works, even when the API is rate limited.
     document.querySelectorAll("[data-version]").forEach((el) => {
-      el.textContent = "最新版";
+      el.textContent = FALLBACK_RELEASE.tag_name;
     });
+    applyRelease(FALLBACK_RELEASE);
     console.warn("latest release:", err);
   }
 }
@@ -257,7 +274,12 @@ async function loadReleases() {
     });
     showChangelog(releases[0]);
   } catch (err) {
-    box.innerHTML = '<p class="placeholder">更新日志暂时读不到，可以到 GitHub Releases 查看。</p>';
+    box.innerHTML = `
+      <button class="release-item active" type="button">
+        <span><span class="version">${FALLBACK_RELEASE.tag_name}</span> <span class="badge">最新</span></span>
+        <span class="date">${escapeHtml(formatDate(FALLBACK_RELEASE.published_at))}</span>
+      </button>`;
+    showChangelog(FALLBACK_RELEASE);
     console.warn("releases:", err);
   }
 }
