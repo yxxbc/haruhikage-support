@@ -1,5 +1,4 @@
 const REPO = "yxxbc/haruhikage-support";
-const RELEASES = `https://github.com/${REPO}/releases`;
 const API = `https://api.github.com/repos/${REPO}/releases/latest`;
 
 const assetNames = {
@@ -57,8 +56,6 @@ function applyRelease(release) {
     }
   });
 
-  const primary = document.querySelector(".hero .button.primary");
-  if (primary) primary.href = `${RELEASES}/tag/${release.tag_name}`;
 }
 
 async function loadLatest() {
