@@ -1,0 +1,45 @@
+name: Bridge
+
+# Publishes the update manifests of a published release on the legacy
+# repository, so that installations still checking it update to the new
+# version and then check this repository.
+#
+#   gh workflow run bridge.yml --repo yxxbc/haruhikage-support -f version=0.1.28
+#
+# Run it only after the release is published here: the manifests point at
+# this repository's archives, which are private while the release is a
+# draft.
+#
+# Secret: LEGACY_RELEASE_TOKEN, a token with contents:write on both
+# yxxbc/haruhikage-support and yxxbc/haruhikage-app.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The version to bridge, without the v, as 0.1.28
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  bridge:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ vars.HARUHIKAGE_SOURCE }}
+          ref: main
+          ssh-key: ${{ secrets.HARUHIKAGE_SOURCE_SSH_KEY }}
+          persist-credentials: false
+      - name: Publish the bridge on the legacy repository
+        env:
+          GH_TOKEN: ${{ secrets.LEGACY_RELEASE_TOKEN }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::LEGACY_RELEASE_TOKEN is missing"
+            exit 1
+          fi
+          bash scripts/bridge-release.sh "$VERSION"

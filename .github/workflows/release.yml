@@ -1,0 +1,150 @@
+name: Release
+
+# Releases 春日影: builds it from the private source repository, signs the
+# Mac app, and uploads the installers and signed update manifests to a
+# draft release of this repository. It never publishes the draft: look at
+# it, then publish it, which makes it the latest release that installed
+# apps update to.
+#
+#   gh workflow run release.yml --repo yxxbc/haruhikage-support -f ref=v0.1.0
+#   gh release edit v0.1.0 --repo yxxbc/haruhikage-support --draft=false --latest
+#
+# Secrets:
+#   HARUHIKAGE_SOURCE_SSH_KEY  read-only deploy key of the private source
+#   MYGO_UPDATER_PRIVATE_KEY   contents of mygo-update.key
+#   MACOS_CERTIFICATE          Developer ID Application .p12 in base64
+#   MACOS_CERTIFICATE_PASSWORD its password
+#   MACOS_SIGN_IDENTITY        e.g. "Developer ID Application: Name (TEAMID)"
+#   APPLE_ID, APPLE_APP_PASSWORD, APPLE_TEAM_ID  for notarization, if wanted
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: The tag, branch or commit of the private source to release, as v0.1.0
+        required: true
+        default: main
+
+permissions:
+  contents: write # the draft release, and the uploads to it
+
+# Every run uploads to the same releases: one at a time.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    name: Draft the release
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ vars.HARUHIKAGE_SOURCE }}
+          ref: ${{ inputs.ref }}
+          ssh-key: ${{ secrets.HARUHIKAGE_SOURCE_SSH_KEY }}
+          persist-credentials: false
+      - name: The version, which a tag must name
+        id: version
+        env:
+          REF: ${{ inputs.ref }}
+        run: |
+          version="$(jq -r .version mygo.json)"
+          case "$REF" in
+            v[0-9]*) test "$REF" = "v$version" || { echo "::error::$REF is not mygo.json's version, $version"; exit 1; } ;;
+          esac
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Create the draft release
+        # The builds upload to it; without it, each would make a draft of
+        # its own.
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if ! gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            touch "$RUNNER_TEMP/notes.md"
+            if [ -f CHANGELOG.md ]; then
+              awk -v head="## $VERSION" '$0 == head || index($0, head " ") == 1 { on = 1; next } /^## / { on = 0 } on' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+            fi
+            # The download table, whose links use mygo.json's updates.github.
+            printf '\n---\n\n' >> "$RUNNER_TEMP/notes.md"
+            bash scripts/download-table.sh "$VERSION" >> "$RUNNER_TEMP/notes.md"
+            gh release create "v$VERSION" --repo "$GITHUB_REPOSITORY" --draft \
+              --title "春日影 $VERSION" --notes-file "$RUNNER_TEMP/notes.md"
+          fi
+
+  build:
+    needs: draft
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: macOS, os: macos-26, platform: "darwin/arm64,darwin/amd64" }
+          - { name: Windows, os: ubuntu-24.04, platform: "windows/amd64,windows/arm64" }
+          - { name: Linux, os: ubuntu-24.04, platform: "linux/amd64,linux/arm64" }
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ vars.HARUHIKAGE_SOURCE }}
+          ref: ${{ inputs.ref }}
+          ssh-key: ${{ secrets.HARUHIKAGE_SOURCE_SSH_KEY }}
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - name: Import the Developer ID and make the NOTARY profile
+        if: matrix.name == 'macOS'
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          if [ -z "$MACOS_CERTIFICATE" ]; then
+            echo "no MACOS_CERTIFICATE: building ad hoc"
+            exit 0
+          fi
+          keychain="$RUNNER_TEMP/signing.keychain-db"
+          password="$(openssl rand -base64 24)"
+          security create-keychain -p "$password" "$keychain"
+          security set-keychain-settings -lut 21600 "$keychain"
+          security unlock-keychain -p "$password" "$keychain"
+          printf '%s' "$MACOS_CERTIFICATE" | base64 --decode > "$RUNNER_TEMP/certificate.p12"
+          security import "$RUNNER_TEMP/certificate.p12" -k "$keychain" \
+            -P "$(printf '%s' "$MACOS_CERTIFICATE_PASSWORD" | tr -d '\r\n')" -T /usr/bin/codesign
+          rm "$RUNNER_TEMP/certificate.p12"
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$password" "$keychain"
+          security list-keychains -d user -s "$keychain" login.keychain
+          security default-keychain -d user -s "$keychain"
+          if [ -n "$APPLE_ID" ] && [ -n "$APPLE_APP_PASSWORD" ]; then
+            xcrun notarytool store-credentials NOTARY --keychain "$keychain" \
+              --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_PASSWORD"
+            jq --arg keychain "$keychain" '.macos.notarize.keychain = $keychain' mygo.json > "$RUNNER_TEMP/mygo.json"
+            mv "$RUNNER_TEMP/mygo.json" mygo.json
+          else
+            # A certificate without Apple credentials signs but cannot
+            # notarize; leave notarization out rather than fail the build.
+            jq 'del(.macos.notarize)' mygo.json > "$RUNNER_TEMP/mygo.json"
+            mv "$RUNNER_TEMP/mygo.json" mygo.json
+          fi
+      - name: Install NSIS, for the Windows installer
+        if: matrix.name == 'Windows'
+        run: sudo apt-get update && sudo apt-get install -y nsis
+      - name: Build and upload
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MYGO_UPDATER_PRIVATE_KEY: ${{ secrets.MYGO_UPDATER_PRIVATE_KEY }}
+          MACOS_SIGN_IDENTITY: ${{ secrets.MACOS_SIGN_IDENTITY }}
+          PLATFORM: ${{ matrix.platform }}
+          GOFLAGS: -buildvcs=false
+        run: |
+          args=(-platform "$PLATFORM" -upload)
+          if [ -n "$MACOS_SIGN_IDENTITY" ]; then
+            args+=(-sign "$MACOS_SIGN_IDENTITY")
+          fi
+          go tool mygo build "${args[@]}"
+          # Never leave the release unpublished from a build job: the
+          # draft is published by hand after every platform is there.
