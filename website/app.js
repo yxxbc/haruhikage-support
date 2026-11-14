@@ -16,15 +16,15 @@ const assetNames = {
 // Used when the GitHub API is rate limited, or when the page is opened
 // straight from disk as a preview: the release page still has everything.
 const FALLBACK_RELEASE = {
-  tag_name: "v0.1.29",
-  published_at: "2026-11-14T19:40:28Z",
-  html_url: "https://github.com/yxxbc/haruhikage-support/releases/tag/v0.1.29",
-  body: `- 缓存里歌很多时，不会再因为整理缓存让播放偶尔卡一下；整理改到后台进行，听歌不受影响
-- 缓存快满时一次清出一点余量，不用每首歌都扫一遍缓存目录
-- 超长无损、Hi-Res 或长度未知的歌改用临时文件边下边播，不再整首占着内存
-- 长时间播客和超长歌曲的频谱占用有了上限，挂久了内存也不会越来越大
-- 快速连续切歌会取消上一首还在加载的请求，不会越切越卡
-- 播放队列很长时，定时保存进度不再卡住界面`,
+  tag_name: "v0.1.30",
+  published_at: "2026-11-14T20:25:10Z",
+  html_url: "https://github.com/yxxbc/haruhikage-support/releases/tag/v0.1.30",
+  body: `- 修复歌没播到一半就退出、重新打开后一直卡在「正在缓冲」的问题；网络长时间没有数据时会提示「播放卡住了，请稍后再试」，不会无限等下去
+- 重新打开时先从上次停下的位置显示，不再先跳回 0:00
+- 电台在队列末尾等下一首时最多等 15 秒，超时会说明暂时没有更多歌曲，不会一直缓冲
+- 歌词、频谱和每日推荐的动画不再追着 120Hz 屏幕刷新，听歌时占用更低
+- 封面缓存有了数量上限，长时间浏览后不会越积越多
+- 均衡器里没有调整的频段不再参与计算，减少一点播放占用`,
   assets: [],
 };
 
