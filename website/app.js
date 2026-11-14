@@ -16,15 +16,15 @@ const assetNames = {
 // Used when the GitHub API is rate limited, or when the page is opened
 // straight from disk as a preview: the release page still has everything.
 const FALLBACK_RELEASE = {
-  tag_name: "v0.1.28",
-  published_at: "2026-11-08T22:12:00Z",
-  html_url: "https://github.com/yxxbc/haruhikage-support/releases/tag/v0.1.28",
-  body: `- 最近播放改成表格式：序号、标题、专辑、喜欢和播放时间一列排开，心形常显，编号连续
-- 设置里的「存储」新增本机容量条：本应用、其他已用和可用空间一眼看清，歌曲缓存另有上限进度
-- 新增跨设备同步：通过 iCloud Drive 接续播放进度、设置和登录状态，在「设置 → 同步」里开关
-- 首次安装登录前要答两道四位数乘除题，答对后才会出现登录按钮
-- 修复最近播放里不能播的歌曲占位导致序号跳号的问题
-- 修复设置窗口在某些操作后不刷新的问题`,
+  tag_name: "v0.1.29",
+  published_at: "2026-11-14T19:40:28Z",
+  html_url: "https://github.com/yxxbc/haruhikage-support/releases/tag/v0.1.29",
+  body: `- 缓存里歌很多时，不会再因为整理缓存让播放偶尔卡一下；整理改到后台进行，听歌不受影响
+- 缓存快满时一次清出一点余量，不用每首歌都扫一遍缓存目录
+- 超长无损、Hi-Res 或长度未知的歌改用临时文件边下边播，不再整首占着内存
+- 长时间播客和超长歌曲的频谱占用有了上限，挂久了内存也不会越来越大
+- 快速连续切歌会取消上一首还在加载的请求，不会越切越卡
+- 播放队列很长时，定时保存进度不再卡住界面`,
   assets: [],
 };
 
