@@ -16,15 +16,14 @@ const assetNames = {
 // Used when the GitHub API is rate limited, or when the page is opened
 // straight from disk as a preview: the release page still has everything.
 const FALLBACK_RELEASE = {
-  tag_name: "v0.1.30",
-  published_at: "2026-11-14T20:25:10Z",
-  html_url: "https://github.com/yxxbc/haruhikage-support/releases/tag/v0.1.30",
-  body: `- 修复歌没播到一半就退出、重新打开后一直卡在「正在缓冲」的问题；网络长时间没有数据时会提示「播放卡住了，请稍后再试」，不会无限等下去
-- 重新打开时先从上次停下的位置显示，不再先跳回 0:00
-- 电台在队列末尾等下一首时最多等 15 秒，超时会说明暂时没有更多歌曲，不会一直缓冲
-- 歌词、频谱和每日推荐的动画不再追着 120Hz 屏幕刷新，听歌时占用更低
-- 封面缓存有了数量上限，长时间浏览后不会越积越多
-- 均衡器里没有调整的频段不再参与计算，减少一点播放占用`,
+  tag_name: "v0.1.33",
+  published_at: "2026-11-16T10:03:00Z",
+  html_url: "https://github.com/yxxbc/haruhikage-support/releases/tag/v0.1.33",
+  body: `- 播放器底部新增音质卡片：直接显示服务器实际返回的格式、采样率、码率和当前输出采样率
+- 点击音质卡片可以直接换档；正在播放的歌会按新音质立即重新加载，保留播放位置和暂停状态
+- 设置里的音质也改为立即生效；新安装默认请求 Hi-Res，实际以服务器返回为准
+- 44.1k/48k 的歌按原生采样率播放，96k 的歌才切到 96k；设备最高 96kHz 时，192k 会转换到 96kHz
+- 修复切歌后输出采样率被上一首锁住的问题`,
   assets: [],
 };
 

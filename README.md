@@ -94,14 +94,14 @@ curl -sL https://github.com/yxxbc/haruhikage-support/releases/latest/download/up
 3. 在本仓库 Actions 里运行 **Release**，`ref` 填 `v<version>`：
 
    ```sh
-   gh workflow run release.yml --repo yxxbc/haruhikage-support -f ref=v0.1.30
+   gh workflow run release.yml --repo yxxbc/haruhikage-support -f ref=v0.1.33
    ```
 
 4. 等 macOS / Windows / Linux 三个 job 都完成，检查 draft 里的安装包和 `update-*.json`
 5. 发布并标记 latest：
 
    ```sh
-   gh release edit v0.1.30 --repo yxxbc/haruhikage-support --draft=false --latest
+   gh release edit v0.1.33 --repo yxxbc/haruhikage-support --draft=false --latest
    ```
 
 6. 验证 latest 清单和更新包：
